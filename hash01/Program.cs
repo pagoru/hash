@@ -18,8 +18,7 @@ namespace hash01
                 textIn = Console.ReadLine();
 
             // Convertim l'string a un array de bytes
-            byte[] bytesIn = Convert.FromBase64String(textIn);
-
+            byte[] bytesIn = UTF8Encoding.UTF8.GetBytes(textIn);
             // Instanciar classe per fer hash
             SHA512Managed SHA512 = new SHA512Managed();
             // Calcular hash
@@ -28,7 +27,7 @@ namespace hash01
             // Si volem mostrar el hash per pantalla o guardar-lo en un arxiu de text
             // cal convertir-lo a un string
 
-            String textOut = Convert.ToBase64String(hashResult);
+            String textOut = BitConverter.ToString(hashResult, 0);
             Console.WriteLine("Hash {0}", textOut);
             Console.ReadKey();
 
