@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace hash01
 {
@@ -24,23 +22,12 @@ namespace hash01
                 
                 if (option == "0")
                 {
-                    String path = readLine("Introdueix la ruta de l'arxiu: ");
-                    String text = System.IO.File.ReadAllText(@path);
-                    String pathHash = readLine("Introdueix la ruta on vols guardar el hash: ");
-                    System.IO.File.WriteAllText(@pathHash, getHash(text));
+                    createHashFileFromFile();
 
                 }
                 else if (option == "1")
                 {
-                    String path = readLine("Introdueix la ruta de l'arxiu que conté el text: ");
-                    String text = System.IO.File.ReadAllText(@path);
-                    String pathHash = readLine("Introdueix la ruta de l'arxiu que conté el hash: ");
-                    String hash = System.IO.File.ReadAllText(@pathHash);
-
-                    String hashText = getHash(text);
-
-                    Console.WriteLine((String.Equals(hash, hashText)) ? "El hash es correcte." : "El hash es incorrecte.");
-
+                    verifyFileFromHashFile();
                 }
                 else if (option == "2")
                 {
@@ -53,6 +40,36 @@ namespace hash01
             }
 
         }
+
+        static void verifyFileFromHashFile()
+        {
+            try
+            {
+                String path = readLine("Introdueix la ruta de l'arxiu que conté el text: ");
+                String text = System.IO.File.ReadAllText(@path);
+                String pathHash = readLine("Introdueix la ruta de l'arxiu que conté el hash: ");
+                String hash = System.IO.File.ReadAllText(@pathHash);
+
+                String hashText = getHash(text);
+
+                Console.WriteLine((hash == hashText) ? "El hash es correcte." : "El hash es incorrecte.");
+            } catch(FileNotFoundException e){
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        static void createHashFileFromFile()
+        {
+            try
+            {
+                String path = readLine("Introdueix la ruta de l'arxiu: ");
+                String text = System.IO.File.ReadAllText(@path);
+                String pathHash = readLine("Introdueix la ruta on vols guardar el hash: ");
+                System.IO.File.WriteAllText(@pathHash, getHash(text));
+            } catch(FileNotFoundException e){
+                Console.WriteLine(e.Message);
+            }
+}
 
         static String getHash(String text)
         {
