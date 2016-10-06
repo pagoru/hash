@@ -23,7 +23,6 @@ namespace hash01
                 if (option == "0")
                 {
                     createHashFileFromFile();
-
                 }
                 else if (option == "1")
                 {
